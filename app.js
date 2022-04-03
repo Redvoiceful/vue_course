@@ -5,8 +5,10 @@ const App = {
       input: {
         value: "",
         placeholder: "Type ur note",
+        hideValue: '',
+        id: 1
       },
-      notes: ["task 1", "task 2", "task 3"],
+      notes: [],
     };
   },
   mounted() {
@@ -16,6 +18,7 @@ const App = {
     notes: {
       handler(updatedList) {
         localStorage.setItem("notes", JSON.stringify(updatedList));
+        console.log(updatedList)
       },
       deep: true,
     },
@@ -32,6 +35,28 @@ const App = {
 
       // reset
       this.input.value = "";
+    },
+    edit(event){
+      const text = event.target; // получаем элемент по клику
+      const input = document.querySelector('input[type=hidden]');  //получаем скрытый инпут
+      text.id = input.id
+      if(text.style.display === 'inline-block') { // если текущее значение видимо
+        text.style.display = 'none'
+        input.type = 'text'
+            input.onblur = function (){ // если с отрытого инпута теряется фокус
+          if (input.type === 'text'){
+            if(input.value === input.value.length) {
+              input.type = 'hidden'
+              text.style.display = 'inline-block'
+              text.innerHTML = input.value
+            } else {
+              input.type = 'hidden'
+              text.style.display = 'inline-block'
+              text.innerHTML = input.value
+            }
+          }
+        }
+      }
     },
     remove(index) {
       console.log(`note: ${index} has been removed`);

@@ -25,14 +25,17 @@
 
         <div class="notes">
           <div class="note" v-for="(note, index) in notes" :key="index">
-            <p>
-              <span @click="remove(index)">&#10005;</span>
-              {{note}}
-            </p>
+              <form @submit.prevent="onSubmit">
+                  <span @click="remove(index)">&#10005;</span>
+                  <span @click="edit" class="note__text" style="display: inline-block">
+                        {{note}}
+                  </span>
+                  <input type="hidden" :value="note" :hideValue="note" :id="index">
+              </form>
           </div>
         </div>
       </div>
-      <!-- vue app end -->
+        <!-- vue app end -->
     </div>
 
     <script src="./app.js"></script>
